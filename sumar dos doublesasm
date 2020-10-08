@@ -1,0 +1,10 @@
+.data
+	myDouble: .double 7.203
+	myDouble2: .double 5.34
+	
+.text
+	ldc1 $f12, myDouble
+	ldc1 $f0, myDouble2
+	add.d $f12, $f12, $f0
+	li $v0, 3
+	syscall

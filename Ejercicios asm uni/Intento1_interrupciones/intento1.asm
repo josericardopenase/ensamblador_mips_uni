@@ -16,19 +16,27 @@
 		
 		#activamos las interrupciones
 		mfc0    $s1, $12
-		ori     $s1, 0x00008C01
+		ori     $s1, 0x0000ff01
 		mtc0    $s1, $12
-		
-		#correcto no me jodas payasos
-		la $t0, tcontrol
-		li $t1, 0x02
-		sb $t1, 0($t0)
 
-		la $t0, pcontrol
-		li $t1, 0x02
-		sb $t1, 0($t0)
-		
+ 		jal KbdIntrEnable
+
+#		jal bucle
 			
 	bucle:
-
+	
 		j bucle
+
+	
+	KbdIntrEnable:
+		la $a3,  tcontrol
+		li $s1, 2
+		sw $s1, 0($a3)
+
+		la $a3, pcontrol
+		sw $s1, 0($a3)
+
+
+		jr $ra
+
+

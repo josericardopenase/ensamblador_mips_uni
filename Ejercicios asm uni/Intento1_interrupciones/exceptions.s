@@ -134,9 +134,7 @@ ok_pc:
 	bne $a0 0 ret		# 0 means exception was an interrupt
 
 # Interrupt-specific code goes here!
-	li $v0, 1
-	li $a0, 1
-	syscall
+
 	
 	
 	
@@ -168,10 +166,9 @@ ret:
 	ori  $k0 0x1		# Interrupts enabled
 	mtc0 $k0 $12
 
+	nop
 # Return from exception on MIPS32:
-	li $v0, 1
-	li $a0, 101
-	syscall
+
 
 # Return sequence for MIPS-I (R2000):
 #	rfe			# Return from exception handler

@@ -16,19 +16,19 @@
 		
 		#activamos las interrupciones
 		mfc0    $s1, $12
-		ori     $s1, 0x0000ff01
+		ori     $s1, 0x00008C01
 		mtc0    $s1, $12
 		
 		#correcto no me jodas payasos
 		la $t0, tcontrol
-		lb $t1, 0($t0)
-		ori $t1, $t1, 0x02
+		li $t1, 0x02
 		sb $t1, 0($t0)
- 		
- 		
- 		
-#		jal bucle
+
+		la $t0, pcontrol
+		li $t1, 0x02
+		sb $t1, 0($t0)
+		
 			
 	bucle:
-	
+
 		j bucle

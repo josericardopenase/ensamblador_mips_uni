@@ -96,6 +96,8 @@ s2:	.word 0
 	srl $a0 $k0 2		# Extract ExcCode Field
 	andi $a0 $a0 0x1f
 
+	beqz $a0, interrupt #vamos a neustro codigo de interrupciones
+
 	# Print information about exception.
 	#
 	li $v0 4		# syscall 4 (print_str)
@@ -136,9 +138,12 @@ ok_pc:
 # Interrupt-specific code goes here!
 
 	
-	
+	li $v0, 1
+	li $a0, 1
+	syscall
 	
 # Don't skip instruction at EPC since it has not executed.
+
 
 
 ret:
@@ -150,7 +155,7 @@ ret:
 				# (Need to handle delayed branch case here)
 	mtc0 $k0 $14
 
-
+ret10:
 # Restore registers and reset procesor state
 #
 	lw $v0 s1		# Restore other registers
@@ -166,9 +171,8 @@ ret:
 	ori  $k0 0x1		# Interrupts enabled
 	mtc0 $k0 $12
 
-	nop
+	eret
 # Return from exception on MIPS32:
-
 
 # Return sequence for MIPS-I (R2000):
 #	rfe			# Return from exception handler
@@ -181,6 +185,15 @@ ret:
 # Standard startup code.  Invoke the routine "main" with arguments:
 #	main(argc, argv, envp)
 #
+
+interrupt:
+	sw $ra, s1
+	la $a0, CaseInt
+	jalr $a0
+	lw $ra, s1
+	j ret10
+
+
 	.text
 	.globl __start
 __start:

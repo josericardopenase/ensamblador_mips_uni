@@ -66,7 +66,7 @@
 		beq $s2, 0x80, TimerIntr
 
 		srl $s2, $k0, 8
-		andi $s0, $s2, 0x8
+		andi $s2, $s2, 0x8
 		beq $s2, 0x8, KbdIntr
 
 		jr $ra
